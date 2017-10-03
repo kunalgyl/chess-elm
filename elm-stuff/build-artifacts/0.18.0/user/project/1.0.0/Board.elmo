@@ -1,0 +1,182 @@
+var _user$project$Board$ctoi = function (c) {
+	return A2(
+		_elm_lang$core$Maybe$withDefault,
+		0,
+		_elm_lang$core$Result$toMaybe(
+			_elm_lang$core$String$toInt(
+				_elm_lang$core$String$fromChar(c))));
+};
+var _user$project$Board$ctos = function (c) {
+	if (!_elm_lang$core$Char$isDigit(c)) {
+		return _elm_lang$core$String$fromChar(c);
+	} else {
+		var i = _user$project$Board$ctoi(c);
+		var j = A2(
+			_elm_lang$core$Basics$max,
+			0,
+			A2(_elm_lang$core$Basics$min, 8, i));
+		return A2(_elm_lang$core$String$repeat, j, '_');
+	}
+};
+var _user$project$Board$boardToString = function (b) {
+	var bsqToStr = function (bsq) {
+		var _p0 = bsq;
+		if (_p0.ctor === 'Empty') {
+			return 'E  ';
+		} else {
+			return A2(
+				_elm_lang$core$Basics_ops['++'],
+				_user$project$PColor$toStringAlt(_p0._0),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					_user$project$Piece$toStringAlt(_p0._1),
+					' '));
+		}
+	};
+	return _elm_lang$core$String$concat(
+		A2(
+			_elm_lang$core$List$map,
+			_elm_lang$core$String$concat,
+			A2(
+				_elm_lang$core$List$map,
+				function (l) {
+					return A2(_elm_lang$core$List$map, bsqToStr, l);
+				},
+				_chendrix$elm_matrix$Matrix$toList(b))));
+};
+var _user$project$Board$toString = function (bsq) {
+	var _p1 = bsq;
+	if (_p1.ctor === 'NotEmpty') {
+		return A2(_user$project$Piece$toString, _p1._1, _p1._0);
+	} else {
+		return '';
+	}
+};
+var _user$project$Board$startingBoardStringList = {
+	ctor: '::',
+	_0: 'Wr Wk Wb WQ WK Wb Wk Wr',
+	_1: {
+		ctor: '::',
+		_0: 'Wp Wp Wp Wp Wp Wp Wp Wp',
+		_1: {
+			ctor: '::',
+			_0: 'E  E  E  E  E  E  E  E',
+			_1: {
+				ctor: '::',
+				_0: 'E  E  E  E  E  E  E  E',
+				_1: {
+					ctor: '::',
+					_0: 'E  E  E  E  E  E  E  E',
+					_1: {
+						ctor: '::',
+						_0: 'E  E  E  E  E  E  E  E',
+						_1: {
+							ctor: '::',
+							_0: 'Bp Bp Bp Bp Bp Bp Bp Bp',
+							_1: {
+								ctor: '::',
+								_0: 'Br Bk Bb BQ BK Bb Bk Br',
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Board$NotEmpty = F2(
+	function (a, b) {
+		return {ctor: 'NotEmpty', _0: a, _1: b};
+	});
+var _user$project$Board$Empty = {ctor: 'Empty'};
+var _user$project$Board$toBSquare = function (s) {
+	var _p2 = s;
+	if (_p2 === 'E') {
+		return _user$project$Board$Empty;
+	} else {
+		var _p3 = _elm_lang$core$String$toList(s);
+		if (((_p3.ctor === '::') && (_p3._1.ctor === '::')) && (_p3._1._1.ctor === '[]')) {
+			return A2(
+				_user$project$Board$NotEmpty,
+				_user$project$PColor$toColor(_p3._0),
+				_user$project$Piece$toPiece(_p3._1._0));
+		} else {
+			return _elm_lang$core$Native_Utils.crashCase(
+				'Board',
+				{
+					start: {line: 38, column: 16},
+					end: {line: 40, column: 85}
+				},
+				_p3)(
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					'incorrect BSquare string: \'',
+					A2(_elm_lang$core$Basics_ops['++'], s, '\'')));
+		}
+	}
+};
+var _user$project$Board$startingBoard = _chendrix$elm_matrix$Matrix$fromList(
+	A2(
+		_elm_lang$core$List$map,
+		function (s) {
+			return A2(
+				_elm_lang$core$List$map,
+				_user$project$Board$toBSquare,
+				_elm_lang$core$String$words(s));
+		},
+		_user$project$Board$startingBoardStringList));
+var _user$project$Board$fenToPiece = function (c) {
+	if (_elm_lang$core$Native_Utils.eq(
+		c,
+		_elm_lang$core$Native_Utils.chr('_'))) {
+		return _user$project$Board$Empty;
+	} else {
+		var p = _elm_lang$core$Char$isUpper(c) ? _user$project$PColor$White : _user$project$PColor$Black;
+		var _p5 = function () {
+			var _p6 = _elm_lang$core$Char$toLower(c);
+			switch (_p6.valueOf()) {
+				case 'k':
+					return {ctor: '_Tuple2', _0: _user$project$Piece$K, _1: true};
+				case 'q':
+					return {ctor: '_Tuple2', _0: _user$project$Piece$Q, _1: true};
+				case 'r':
+					return {ctor: '_Tuple2', _0: _user$project$Piece$R, _1: true};
+				case 'b':
+					return {ctor: '_Tuple2', _0: _user$project$Piece$B, _1: true};
+				case 'n':
+					return {ctor: '_Tuple2', _0: _user$project$Piece$Kn, _1: true};
+				case 'p':
+					return {ctor: '_Tuple2', _0: _user$project$Piece$P, _1: true};
+				default:
+					return {ctor: '_Tuple2', _0: _user$project$Piece$P, _1: false};
+			}
+		}();
+		var pc = _p5._0;
+		var b = _p5._1;
+		return b ? A2(_user$project$Board$NotEmpty, p, pc) : _user$project$Board$Empty;
+	}
+};
+var _user$project$Board$processRow = function (s) {
+	return _elm_lang$core$Array$fromList(
+		A2(
+			_elm_lang$core$List$map,
+			_user$project$Board$fenToPiece,
+			A2(
+				_elm_lang$core$List$take,
+				8,
+				_elm_lang$core$String$toList(
+					_elm_lang$core$String$concat(
+						A2(
+							_elm_lang$core$List$map,
+							_user$project$Board$ctos,
+							_elm_lang$core$String$toList(s)))))));
+};
+var _user$project$Board$processBoard = function (s) {
+	return _elm_lang$core$Array$fromList(
+		_elm_lang$core$List$reverse(
+			A2(
+				_elm_lang$core$List$map,
+				_user$project$Board$processRow,
+				A2(_elm_lang$core$String$split, '/', s))));
+};

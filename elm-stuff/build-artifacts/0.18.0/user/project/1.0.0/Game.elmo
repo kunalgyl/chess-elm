@@ -1,0 +1,1250 @@
+var _user$project$Game$hasKing = F2(
+	function (b, pl) {
+		var l_b = _chendrix$elm_matrix$Matrix$flatten(b);
+		var red_l = function (l) {
+			red_l:
+			while (true) {
+				var _p0 = l;
+				if (_p0.ctor === '[]') {
+					return false;
+				} else {
+					if (_p0._0.ctor === 'NotEmpty') {
+						if (_elm_lang$core$Native_Utils.eq(_p0._0._0, pl) && _elm_lang$core$Native_Utils.eq(_p0._0._1, _user$project$Piece$K)) {
+							return true;
+						} else {
+							var _v1 = _p0._1;
+							l = _v1;
+							continue red_l;
+						}
+					} else {
+						var _v2 = _p0._1;
+						l = _v2;
+						continue red_l;
+					}
+				}
+			}
+		};
+		return red_l(l_b);
+	});
+var _user$project$Game$findKing = F2(
+	function (b, pl) {
+		var l_loc_b = _chendrix$elm_matrix$Matrix$flatten(
+			A2(
+				_chendrix$elm_matrix$Matrix$mapWithLocation,
+				F2(
+					function (loc, a) {
+						return {ctor: '_Tuple2', _0: loc, _1: a};
+					}),
+				b));
+		var red_l = function (l) {
+			red_l:
+			while (true) {
+				var _p1 = l;
+				if (_p1.ctor === '[]') {
+					return _elm_lang$core$Native_Utils.crashCase(
+						'Game',
+						{
+							start: {line: 390, column: 19},
+							end: {line: 394, column: 44}
+						},
+						_p1)(
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							'impossible, no King - findKing ',
+							_user$project$Board$boardToString(b)));
+				} else {
+					if ((_p1._0.ctor === '_Tuple2') && (_p1._0._1.ctor === 'NotEmpty')) {
+						if (_elm_lang$core$Native_Utils.eq(_p1._0._1._0, pl) && _elm_lang$core$Native_Utils.eq(_p1._0._1._1, _user$project$Piece$K)) {
+							return _p1._0._0;
+						} else {
+							var _v4 = _p1._1;
+							l = _v4;
+							continue red_l;
+						}
+					} else {
+						var _v5 = _p1._1;
+						l = _v5;
+						continue red_l;
+					}
+				}
+			}
+		};
+		return red_l(l_loc_b);
+	});
+var _user$project$Game$isEnemy = F3(
+	function (b, p, s) {
+		var _p3 = A2(_chendrix$elm_matrix$Matrix$get, s, b);
+		if (_p3.ctor === 'Just') {
+			if (_p3._0.ctor === 'NotEmpty') {
+				return !_elm_lang$core$Native_Utils.eq(p, _p3._0._0);
+			} else {
+				return true;
+			}
+		} else {
+			return false;
+		}
+	});
+var _user$project$Game$kingMoves = F3(
+	function (b, p, s) {
+		var _p4 = s;
+		var r = _p4._0;
+		var c = _p4._1;
+		var sqs = {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: r, _1: c + 1},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: r, _1: c - 1},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: r + 1, _1: c},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: r - 1, _1: c},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: r + 1, _1: c + 1},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: r - 1, _1: c + 1},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: r + 1, _1: c - 1},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: r - 1, _1: c - 1},
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		return A2(
+			_elm_lang$core$List$filter,
+			A2(_user$project$Game$isEnemy, b, p),
+			A2(_elm_lang$core$List$filter, _user$project$Square$isValid, sqs));
+	});
+var _user$project$Game$knightMoves = F3(
+	function (b, p, s) {
+		var _p5 = s;
+		var r = _p5._0;
+		var c = _p5._1;
+		var sqs = {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: r + 2, _1: c + 1},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: r + 1, _1: c + 2},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: r + 2, _1: c - 1},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: r + 1, _1: c - 2},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: r - 2, _1: c + 1},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: r - 1, _1: c + 2},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: r - 2, _1: c - 1},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: r - 1, _1: c - 2},
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		return A2(
+			_elm_lang$core$List$filter,
+			A2(_user$project$Game$isEnemy, b, p),
+			A2(_elm_lang$core$List$filter, _user$project$Square$isValid, sqs));
+	});
+var _user$project$Game$isOccupiedByPl = F3(
+	function (b, p, s) {
+		var _p6 = A2(_chendrix$elm_matrix$Matrix$get, s, b);
+		if ((_p6.ctor === 'Just') && (_p6._0.ctor === 'NotEmpty')) {
+			return _elm_lang$core$Native_Utils.eq(p, _p6._0._0);
+		} else {
+			return false;
+		}
+	});
+var _user$project$Game$isOccupied = F2(
+	function (b, s) {
+		var _p7 = A2(_chendrix$elm_matrix$Matrix$get, s, b);
+		if ((_p7.ctor === 'Just') && (_p7._0.ctor === 'NotEmpty')) {
+			return true;
+		} else {
+			return false;
+		}
+	});
+var _user$project$Game$pawnMoves = F4(
+	function (b, p, s, mi) {
+		var sgn = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$Black) ? -1 : 1;
+		var _p8 = s;
+		var r = _p8._0;
+		var c = _p8._1;
+		var captureMove = function (s) {
+			return (A2(_user$project$Game$isOccupied, b, s) && A3(_user$project$Game$isEnemy, b, p, s)) ? {
+				ctor: '::',
+				_0: s,
+				_1: {ctor: '[]'}
+			} : {ctor: '[]'};
+		};
+		var nonCaptureMove = function (s) {
+			return A2(_user$project$Game$isOccupied, b, s) ? {ctor: '[]'} : {
+				ctor: '::',
+				_0: s,
+				_1: {ctor: '[]'}
+			};
+		};
+		var firstRankMove = (_elm_lang$core$Native_Utils.eq(
+			_user$project$PColor$pawnRank(p),
+			r) && (!(A2(
+			_user$project$Game$isOccupied,
+			b,
+			{ctor: '_Tuple2', _0: r + (sgn * 2), _1: c}) || A2(
+			_user$project$Game$isOccupied,
+			b,
+			{ctor: '_Tuple2', _0: r + (sgn * 1), _1: c})))) ? {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: r + (sgn * 2), _1: c},
+			_1: {ctor: '[]'}
+		} : {ctor: '[]'};
+		var enpassrank = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? 4 : 3;
+		var enPassMove = function () {
+			var _p9 = mi;
+			if (_p9.ctor === 'Just') {
+				var _p10 = _p9._0;
+				return (_elm_lang$core$Native_Utils.eq(
+					s,
+					{ctor: '_Tuple2', _0: enpassrank, _1: _p10 - 1}) || _elm_lang$core$Native_Utils.eq(
+					s,
+					{ctor: '_Tuple2', _0: enpassrank, _1: _p10 + 1})) ? {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: r + 1, _1: _p10},
+					_1: {ctor: '[]'}
+				} : {ctor: '[]'};
+			} else {
+				return {ctor: '[]'};
+			}
+		}();
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			nonCaptureMove(
+				{ctor: '_Tuple2', _0: r + (sgn * 1), _1: c}),
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				captureMove(
+					{ctor: '_Tuple2', _0: r + (sgn * 1), _1: c - 1}),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					captureMove(
+						{ctor: '_Tuple2', _0: r + (sgn * 1), _1: c + 1}),
+					A2(_elm_lang$core$Basics_ops['++'], firstRankMove, enPassMove))));
+	});
+var _user$project$Game$pawnAttacks = F3(
+	function (b, p, s) {
+		var sgn = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$Black) ? -1 : 1;
+		var _p11 = s;
+		var r = _p11._0;
+		var c = _p11._1;
+		var captureMove = function (s) {
+			return (A2(_user$project$Game$isOccupied, b, s) && A3(_user$project$Game$isEnemy, b, p, s)) ? {
+				ctor: '::',
+				_0: s,
+				_1: {ctor: '[]'}
+			} : {ctor: '[]'};
+		};
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			captureMove(
+				{ctor: '_Tuple2', _0: r + (sgn * 1), _1: c - 1}),
+			captureMove(
+				{ctor: '_Tuple2', _0: r + (sgn * 1), _1: c + 1}));
+	});
+var _user$project$Game$isEnemyPiece = F4(
+	function (b, p, s, pc) {
+		if (!_user$project$Square$isValid(s)) {
+			return false;
+		} else {
+			var _p12 = A2(_chendrix$elm_matrix$Matrix$get, s, b);
+			if ((_p12.ctor === 'Just') && (_p12._0.ctor === 'NotEmpty')) {
+				return _elm_lang$core$Native_Utils.eq(_p12._0._0, p) ? false : _elm_lang$core$Native_Utils.eq(_p12._0._1, pc);
+			} else {
+				return false;
+			}
+		}
+	});
+var _user$project$Game$checkAttsPawn = F3(
+	function (b, p, s) {
+		var _p13 = s;
+		var r = _p13._0;
+		var c = _p13._1;
+		var _p14 = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? {
+			ctor: '_Tuple2',
+			_0: {ctor: '_Tuple2', _0: r + 1, _1: c + 1},
+			_1: {ctor: '_Tuple2', _0: r + 1, _1: c - 1}
+		} : {
+			ctor: '_Tuple2',
+			_0: {ctor: '_Tuple2', _0: r - 1, _1: c + 1},
+			_1: {ctor: '_Tuple2', _0: r - 1, _1: c - 1}
+		};
+		var sq_1 = _p14._0;
+		var sq_2 = _p14._1;
+		return A4(_user$project$Game$isEnemyPiece, b, p, sq_1, _user$project$Piece$P) || A4(_user$project$Game$isEnemyPiece, b, p, sq_2, _user$project$Piece$P);
+	});
+var _user$project$Game$checkAttsKnH = F3(
+	function (b, p, sqs) {
+		checkAttsKnH:
+		while (true) {
+			var _p15 = sqs;
+			if (_p15.ctor === '::') {
+				var _p16 = _p15._0;
+				if (_user$project$Square$isValid(_p16) && A4(_user$project$Game$isEnemyPiece, b, p, _p16, _user$project$Piece$Kn)) {
+					return true;
+				} else {
+					var _v12 = b,
+						_v13 = p,
+						_v14 = _p15._1;
+					b = _v12;
+					p = _v13;
+					sqs = _v14;
+					continue checkAttsKnH;
+				}
+			} else {
+				return false;
+			}
+		}
+	});
+var _user$project$Game$checkAttsKn = F3(
+	function (b, p, s) {
+		var _p17 = s;
+		var r = _p17._0;
+		var c = _p17._1;
+		var poss_sqs = {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: r + 2, _1: c + 1},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: r + 1, _1: c + 2},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: r + 2, _1: c - 1},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: r + 1, _1: c - 2},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: r - 2, _1: c + 1},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: r - 1, _1: c + 2},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: r - 2, _1: c - 1},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: r - 1, _1: c - 2},
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		return A3(_user$project$Game$checkAttsKnH, b, p, poss_sqs);
+	});
+var _user$project$Game$checkAttsKngH = F3(
+	function (b, p, sqs) {
+		checkAttsKngH:
+		while (true) {
+			var _p18 = sqs;
+			if (_p18.ctor === '::') {
+				var _p19 = _p18._0;
+				if (_user$project$Square$isValid(_p19) && A4(_user$project$Game$isEnemyPiece, b, p, _p19, _user$project$Piece$K)) {
+					return true;
+				} else {
+					var _v16 = b,
+						_v17 = p,
+						_v18 = _p18._1;
+					b = _v16;
+					p = _v17;
+					sqs = _v18;
+					continue checkAttsKngH;
+				}
+			} else {
+				return false;
+			}
+		}
+	});
+var _user$project$Game$checkAttsKng = F3(
+	function (b, p, s) {
+		var _p20 = s;
+		var r = _p20._0;
+		var c = _p20._1;
+		var poss_sqs = {
+			ctor: '::',
+			_0: {ctor: '_Tuple2', _0: r + 1, _1: c},
+			_1: {
+				ctor: '::',
+				_0: {ctor: '_Tuple2', _0: r - 1, _1: c},
+				_1: {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: r, _1: c - 1},
+					_1: {
+						ctor: '::',
+						_0: {ctor: '_Tuple2', _0: r, _1: c + 1},
+						_1: {
+							ctor: '::',
+							_0: {ctor: '_Tuple2', _0: r + 1, _1: c - 1},
+							_1: {
+								ctor: '::',
+								_0: {ctor: '_Tuple2', _0: r + 1, _1: c + 1},
+								_1: {
+									ctor: '::',
+									_0: {ctor: '_Tuple2', _0: r - 1, _1: c - 1},
+									_1: {
+										ctor: '::',
+										_0: {ctor: '_Tuple2', _0: r - 1, _1: c + 1},
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		return A3(_user$project$Game$checkAttsKngH, b, p, poss_sqs);
+	});
+var _user$project$Game$canAtt = function (d) {
+	var _p21 = d;
+	switch (_p21.ctor) {
+		case 'N':
+			return {
+				ctor: '::',
+				_0: _user$project$Piece$R,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Piece$Q,
+					_1: {ctor: '[]'}
+				}
+			};
+		case 'S':
+			return {
+				ctor: '::',
+				_0: _user$project$Piece$R,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Piece$Q,
+					_1: {ctor: '[]'}
+				}
+			};
+		case 'E':
+			return {
+				ctor: '::',
+				_0: _user$project$Piece$R,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Piece$Q,
+					_1: {ctor: '[]'}
+				}
+			};
+		case 'W':
+			return {
+				ctor: '::',
+				_0: _user$project$Piece$R,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Piece$Q,
+					_1: {ctor: '[]'}
+				}
+			};
+		default:
+			return {
+				ctor: '::',
+				_0: _user$project$Piece$B,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Piece$Q,
+					_1: {ctor: '[]'}
+				}
+			};
+	}
+};
+var _user$project$Game$walk = F2(
+	function (d, s) {
+		var _p22 = s;
+		var r = _p22._0;
+		var c = _p22._1;
+		var _p23 = d;
+		switch (_p23.ctor) {
+			case 'N':
+				return {ctor: '_Tuple2', _0: r, _1: c + 1};
+			case 'S':
+				return {ctor: '_Tuple2', _0: r, _1: c - 1};
+			case 'E':
+				return {ctor: '_Tuple2', _0: r + 1, _1: c};
+			case 'W':
+				return {ctor: '_Tuple2', _0: r - 1, _1: c};
+			case 'NE':
+				return {ctor: '_Tuple2', _0: r + 1, _1: c + 1};
+			case 'NW':
+				return {ctor: '_Tuple2', _0: r - 1, _1: c + 1};
+			case 'SE':
+				return {ctor: '_Tuple2', _0: r + 1, _1: c - 1};
+			default:
+				return {ctor: '_Tuple2', _0: r - 1, _1: c - 1};
+		}
+	});
+var _user$project$Game$walkUntil = F4(
+	function (b, p, s, d) {
+		var step = A2(_user$project$Game$walk, d, s);
+		return (!_user$project$Square$isValid(step)) ? {ctor: '[]'} : (A2(_user$project$Game$isOccupied, b, step) ? (A3(_user$project$Game$isEnemy, b, p, step) ? {
+			ctor: '::',
+			_0: step,
+			_1: {ctor: '[]'}
+		} : {ctor: '[]'}) : {
+			ctor: '::',
+			_0: step,
+			_1: A4(_user$project$Game$walkUntil, b, p, step, d)
+		});
+	});
+var _user$project$Game$pieceDirMoves = F4(
+	function (b, p, s, ds) {
+		return A2(
+			_elm_lang$core$List$concatMap,
+			A3(_user$project$Game$walkUntil, b, p, s),
+			ds);
+	});
+var _user$project$Game$walkUntilAtt = F4(
+	function (b, p, s, d) {
+		walkUntilAtt:
+		while (true) {
+			var step = A2(_user$project$Game$walk, d, s);
+			if (!_user$project$Square$isValid(step)) {
+				return false;
+			} else {
+				var _p24 = A2(_chendrix$elm_matrix$Matrix$get, step, b);
+				if ((_p24.ctor === 'Just') && (_p24._0.ctor === 'NotEmpty')) {
+					return _elm_lang$core$Native_Utils.eq(_p24._0._0, p) ? false : A2(
+						_elm_lang$core$List$member,
+						_p24._0._1,
+						_user$project$Game$canAtt(d));
+				} else {
+					var _v22 = b,
+						_v23 = p,
+						_v24 = step,
+						_v25 = d;
+					b = _v22;
+					p = _v23;
+					s = _v24;
+					d = _v25;
+					continue walkUntilAtt;
+				}
+			}
+		}
+	});
+var _user$project$Game$checkAttsDirH = F4(
+	function (b, p, s, ds) {
+		checkAttsDirH:
+		while (true) {
+			var _p25 = ds;
+			if (_p25.ctor === '::') {
+				if (A4(_user$project$Game$walkUntilAtt, b, p, s, _p25._0)) {
+					return true;
+				} else {
+					var _v27 = b,
+						_v28 = p,
+						_v29 = s,
+						_v30 = _p25._1;
+					b = _v27;
+					p = _v28;
+					s = _v29;
+					ds = _v30;
+					continue checkAttsDirH;
+				}
+			} else {
+				return false;
+			}
+		}
+	});
+var _user$project$Game$takenth = F2(
+	function (xs, i) {
+		takenth:
+		while (true) {
+			if (_elm_lang$core$Native_Utils.eq(i, 0)) {
+				return _elm_lang$core$List$head(xs);
+			} else {
+				var _p26 = xs;
+				if (_p26.ctor === '::') {
+					var _v32 = _p26._1,
+						_v33 = i - 1;
+					xs = _v32;
+					i = _v33;
+					continue takenth;
+				} else {
+					return _elm_lang$core$Maybe$Nothing;
+				}
+			}
+		}
+	});
+var _user$project$Game$isJust = function (m) {
+	var _p27 = m;
+	if (_p27.ctor === 'Just') {
+		return true;
+	} else {
+		return false;
+	}
+};
+var _user$project$Game$justGet = F2(
+	function (ma, s) {
+		var _p28 = ma;
+		if (_p28.ctor === 'Just') {
+			return _p28._0;
+		} else {
+			return _elm_lang$core$Native_Utils.crashCase(
+				'Game',
+				{
+					start: {line: 20, column: 3},
+					end: {line: 22, column: 28}
+				},
+				_p28)(s);
+		}
+	});
+var _user$project$Game$makeMoveSimple = F5(
+	function (b, cbs, sq_src, sq_dest, kposs) {
+		var _p30 = sq_dest;
+		var r_dest = _p30._0;
+		var c_dest = _p30._1;
+		var _p31 = sq_src;
+		var r_src = _p31._0;
+		var c_src = _p31._1;
+		var _p32 = function () {
+			var _p33 = A2(
+				_user$project$Game$justGet,
+				A2(_chendrix$elm_matrix$Matrix$get, sq_src, b),
+				'makeMove - impossible');
+			if (_p33.ctor === 'NotEmpty') {
+				return {ctor: '_Tuple2', _0: _p33._0, _1: _p33._1};
+			} else {
+				return _elm_lang$core$Native_Utils.crashCase(
+					'Game',
+					{
+						start: {line: 350, column: 21},
+						end: {line: 352, column: 76}
+					},
+					_p33)('makeMove - impossible');
+			}
+		}();
+		var p = _p32._0;
+		var pc = _p32._1;
+		var rm_pc_b = A3(_chendrix$elm_matrix$Matrix$set, sq_src, _user$project$Board$Empty, b);
+		var mv_pc_b = A3(
+			_chendrix$elm_matrix$Matrix$set,
+			sq_dest,
+			A2(_user$project$Board$NotEmpty, p, pc),
+			rm_pc_b);
+		var prom_b = (_elm_lang$core$Native_Utils.eq(pc, _user$project$Piece$P) && _elm_lang$core$Native_Utils.eq(
+			A2(_elm_lang$core$Basics_ops['%'], r_dest, 7),
+			0)) ? A3(
+			_chendrix$elm_matrix$Matrix$set,
+			sq_dest,
+			A2(_user$project$Board$NotEmpty, p, _user$project$Piece$Q),
+			mv_pc_b) : mv_pc_b;
+		var castle_b = _elm_lang$core$Native_Utils.eq(pc, _user$project$Piece$K) ? (_elm_lang$core$Native_Utils.eq(c_src - c_dest, -2) ? A3(
+			_chendrix$elm_matrix$Matrix$set,
+			{ctor: '_Tuple2', _0: r_src, _1: 5},
+			A2(_user$project$Board$NotEmpty, p, _user$project$Piece$R),
+			A3(
+				_chendrix$elm_matrix$Matrix$set,
+				{ctor: '_Tuple2', _0: r_src, _1: 7},
+				_user$project$Board$Empty,
+				prom_b)) : (_elm_lang$core$Native_Utils.eq(c_src - c_dest, 2) ? A3(
+			_chendrix$elm_matrix$Matrix$set,
+			{ctor: '_Tuple2', _0: r_src, _1: 3},
+			A2(_user$project$Board$NotEmpty, p, _user$project$Piece$R),
+			A3(
+				_chendrix$elm_matrix$Matrix$set,
+				{ctor: '_Tuple2', _0: r_src, _1: 0},
+				_user$project$Board$Empty,
+				prom_b)) : prom_b)) : prom_b;
+		var kposs_new = _elm_lang$core$Native_Utils.eq(pc, _user$project$Piece$K) ? (_elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? _elm_lang$core$Native_Utils.update(
+			kposs,
+			{w: sq_dest}) : _elm_lang$core$Native_Utils.update(
+			kposs,
+			{b: sq_dest})) : kposs;
+		return {ctor: '_Tuple2', _0: castle_b, _1: kposs_new};
+	});
+var _user$project$Game$CastleBools = F4(
+	function (a, b, c, d) {
+		return {wsc: a, wlc: b, bsc: c, blc: d};
+	});
+var _user$project$Game$KingPoss = F2(
+	function (a, b) {
+		return {w: a, b: b};
+	});
+var _user$project$Game$SW = {ctor: 'SW'};
+var _user$project$Game$SE = {ctor: 'SE'};
+var _user$project$Game$NW = {ctor: 'NW'};
+var _user$project$Game$NE = {ctor: 'NE'};
+var _user$project$Game$bishopDirs = {
+	ctor: '::',
+	_0: _user$project$Game$NE,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Game$NW,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Game$SE,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Game$SW,
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Game$W = {ctor: 'W'};
+var _user$project$Game$E = {ctor: 'E'};
+var _user$project$Game$S = {ctor: 'S'};
+var _user$project$Game$N = {ctor: 'N'};
+var _user$project$Game$checkAttsDir = F3(
+	function (b, p, s) {
+		var dirs = {
+			ctor: '::',
+			_0: _user$project$Game$N,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Game$S,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Game$E,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Game$W,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Game$NE,
+							_1: {
+								ctor: '::',
+								_0: _user$project$Game$NW,
+								_1: {
+									ctor: '::',
+									_0: _user$project$Game$SE,
+									_1: {
+										ctor: '::',
+										_0: _user$project$Game$SW,
+										_1: {ctor: '[]'}
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		};
+		return A4(_user$project$Game$checkAttsDirH, b, p, s, dirs);
+	});
+var _user$project$Game$sqInAttackEfficient = F3(
+	function (b, p, sq) {
+		return A3(_user$project$Game$checkAttsPawn, b, p, sq) ? true : (A3(_user$project$Game$checkAttsKn, b, p, sq) ? true : (A3(_user$project$Game$checkAttsKng, b, p, sq) ? true : (A3(_user$project$Game$checkAttsDir, b, p, sq) ? true : false)));
+	});
+var _user$project$Game$kingMovesWithCastle = F5(
+	function (b, p, s, sc, lc) {
+		var _p35 = s;
+		var r = _p35._0;
+		var c = _p35._1;
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			A3(_user$project$Game$kingMoves, b, p, s),
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				(sc && (!(A2(
+					_user$project$Game$isOccupied,
+					b,
+					{ctor: '_Tuple2', _0: r, _1: c + 1}) || (A2(
+					_user$project$Game$isOccupied,
+					b,
+					{ctor: '_Tuple2', _0: r, _1: c + 2}) || (A3(
+					_user$project$Game$sqInAttackEfficient,
+					b,
+					p,
+					{ctor: '_Tuple2', _0: r, _1: c}) || (A3(
+					_user$project$Game$sqInAttackEfficient,
+					b,
+					p,
+					{ctor: '_Tuple2', _0: r, _1: c + 1}) || A3(
+					_user$project$Game$sqInAttackEfficient,
+					b,
+					p,
+					{ctor: '_Tuple2', _0: r, _1: c + 2}))))))) ? {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: r, _1: c + 2},
+					_1: {ctor: '[]'}
+				} : {ctor: '[]'},
+				(lc && (!(A2(
+					_user$project$Game$isOccupied,
+					b,
+					{ctor: '_Tuple2', _0: r, _1: c - 1}) || (A2(
+					_user$project$Game$isOccupied,
+					b,
+					{ctor: '_Tuple2', _0: r, _1: c - 2}) || (A2(
+					_user$project$Game$isOccupied,
+					b,
+					{ctor: '_Tuple2', _0: r, _1: c - 3}) || (A3(
+					_user$project$Game$sqInAttackEfficient,
+					b,
+					p,
+					{ctor: '_Tuple2', _0: r, _1: c}) || (A3(
+					_user$project$Game$sqInAttackEfficient,
+					b,
+					p,
+					{ctor: '_Tuple2', _0: r, _1: c - 1}) || (A3(
+					_user$project$Game$sqInAttackEfficient,
+					b,
+					p,
+					{ctor: '_Tuple2', _0: r, _1: c - 2}) || A3(
+					_user$project$Game$sqInAttackEfficient,
+					b,
+					p,
+					{ctor: '_Tuple2', _0: r, _1: c - 3}))))))))) ? {
+					ctor: '::',
+					_0: {ctor: '_Tuple2', _0: r, _1: c - 2},
+					_1: {ctor: '[]'}
+				} : {ctor: '[]'}));
+	});
+var _user$project$Game$kingInCheck = F2(
+	function (b, p) {
+		var k_sq = A2(_user$project$Game$findKing, b, p);
+		return A3(_user$project$Game$sqInAttackEfficient, b, p, k_sq) ? _elm_lang$core$Maybe$Just(k_sq) : _elm_lang$core$Maybe$Nothing;
+	});
+var _user$project$Game$makeEnPassMove = F5(
+	function (b, cbs, sq_src, sq_dest, kposs) {
+		var _p36 = sq_dest;
+		var r_dest = _p36._0;
+		var c_dest = _p36._1;
+		var _p37 = sq_src;
+		var r_src = _p37._0;
+		var c_src = _p37._1;
+		var capt_sq = {ctor: '_Tuple2', _0: r_src, _1: c_dest};
+		var _p38 = function () {
+			var _p39 = A2(
+				_user$project$Game$justGet,
+				A2(_chendrix$elm_matrix$Matrix$get, sq_src, b),
+				'makeEnPassMove - impossible');
+			if (_p39.ctor === 'NotEmpty') {
+				return {ctor: '_Tuple2', _0: _p39._0, _1: _p39._1};
+			} else {
+				return _elm_lang$core$Native_Utils.crashCase(
+					'Game',
+					{
+						start: {line: 294, column: 21},
+						end: {line: 296, column: 82}
+					},
+					_p39)('makeEnPassMove - impossible');
+			}
+		}();
+		var p = _p38._0;
+		var pc = _p38._1;
+		var captured = function () {
+			var _p41 = A2(
+				_user$project$Game$justGet,
+				A2(_chendrix$elm_matrix$Matrix$get, capt_sq, b),
+				'makeEnPassMove - impossible');
+			if (_p41.ctor === 'NotEmpty') {
+				return _elm_lang$core$Maybe$Just(_p41._1);
+			} else {
+				return _elm_lang$core$Native_Utils.crashCase(
+					'Game',
+					{
+						start: {line: 297, column: 21},
+						end: {line: 299, column: 82}
+					},
+					_p41)('makeEnPassMove - impossible');
+			}
+		}();
+		var rm_pc_b = A3(_chendrix$elm_matrix$Matrix$set, sq_src, _user$project$Board$Empty, b);
+		var mv_pc_b = A3(
+			_chendrix$elm_matrix$Matrix$set,
+			sq_dest,
+			A2(_user$project$Board$NotEmpty, p, pc),
+			rm_pc_b);
+		var rm_capt_b = A3(_chendrix$elm_matrix$Matrix$set, capt_sq, _user$project$Board$Empty, mv_pc_b);
+		var check = A2(
+			_user$project$Game$kingInCheck,
+			rm_capt_b,
+			_user$project$PColor$otherColor(p));
+		var srm = _elm_lang$core$Maybe$Nothing;
+		return {
+			ctor: '_Tuple6',
+			_0: rm_capt_b,
+			_1: cbs,
+			_2: captured,
+			_3: kposs,
+			_4: srm,
+			_5: {ctor: '_Tuple6', _0: p, _1: pc, _2: sq_src, _3: sq_dest, _4: captured, _5: check}
+		};
+	});
+var _user$project$Game$makeMove = F5(
+	function (b, cbs, sq_src, sq_dest, kposs) {
+		var _p43 = sq_dest;
+		var r_dest = _p43._0;
+		var c_dest = _p43._1;
+		var _p44 = sq_src;
+		var r_src = _p44._0;
+		var c_src = _p44._1;
+		var _p45 = function () {
+			var _p46 = A2(
+				_user$project$Game$justGet,
+				A2(_chendrix$elm_matrix$Matrix$get, sq_src, b),
+				'makeMove - impossible');
+			if (_p46.ctor === 'NotEmpty') {
+				return {ctor: '_Tuple2', _0: _p46._0, _1: _p46._1};
+			} else {
+				return _elm_lang$core$Native_Utils.crashCase(
+					'Game',
+					{
+						start: {line: 315, column: 21},
+						end: {line: 317, column: 76}
+					},
+					_p46)('makeMove - impossible');
+			}
+		}();
+		var p = _p45._0;
+		var pc = _p45._1;
+		if (_elm_lang$core$Native_Utils.eq(pc, _user$project$Piece$P) && ((!_elm_lang$core$Native_Utils.eq(c_src, c_dest)) && (!A2(_user$project$Game$isOccupied, b, sq_dest)))) {
+			return A5(_user$project$Game$makeEnPassMove, b, cbs, sq_src, sq_dest, kposs);
+		} else {
+			var captured = function () {
+				var _p48 = A2(
+					_user$project$Game$justGet,
+					A2(_chendrix$elm_matrix$Matrix$get, sq_dest, b),
+					'makeMove - impossible');
+				if (_p48.ctor === 'NotEmpty') {
+					return _elm_lang$core$Maybe$Just(_p48._1);
+				} else {
+					return _elm_lang$core$Maybe$Nothing;
+				}
+			}();
+			var rm_pc_b = A3(_chendrix$elm_matrix$Matrix$set, sq_src, _user$project$Board$Empty, b);
+			var mv_pc_b = A3(
+				_chendrix$elm_matrix$Matrix$set,
+				sq_dest,
+				A2(_user$project$Board$NotEmpty, p, pc),
+				rm_pc_b);
+			var prom_b = (_elm_lang$core$Native_Utils.eq(pc, _user$project$Piece$P) && _elm_lang$core$Native_Utils.eq(
+				A2(_elm_lang$core$Basics_ops['%'], r_dest, 7),
+				0)) ? A3(
+				_chendrix$elm_matrix$Matrix$set,
+				sq_dest,
+				A2(_user$project$Board$NotEmpty, p, _user$project$Piece$Q),
+				mv_pc_b) : mv_pc_b;
+			var castle_b = _elm_lang$core$Native_Utils.eq(pc, _user$project$Piece$K) ? (_elm_lang$core$Native_Utils.eq(c_src - c_dest, -2) ? A3(
+				_chendrix$elm_matrix$Matrix$set,
+				{ctor: '_Tuple2', _0: r_src, _1: 5},
+				A2(_user$project$Board$NotEmpty, p, _user$project$Piece$R),
+				A3(
+					_chendrix$elm_matrix$Matrix$set,
+					{ctor: '_Tuple2', _0: r_src, _1: 7},
+					_user$project$Board$Empty,
+					prom_b)) : (_elm_lang$core$Native_Utils.eq(c_src - c_dest, 2) ? A3(
+				_chendrix$elm_matrix$Matrix$set,
+				{ctor: '_Tuple2', _0: r_src, _1: 3},
+				A2(_user$project$Board$NotEmpty, p, _user$project$Piece$R),
+				A3(
+					_chendrix$elm_matrix$Matrix$set,
+					{ctor: '_Tuple2', _0: r_src, _1: 0},
+					_user$project$Board$Empty,
+					prom_b)) : prom_b)) : prom_b;
+			var wsc_n = cbs.wsc && ((!_elm_lang$core$Native_Utils.eq(
+				sq_src,
+				{ctor: '_Tuple2', _0: 0, _1: 7})) && (!_elm_lang$core$Native_Utils.eq(
+				sq_src,
+				{ctor: '_Tuple2', _0: 0, _1: 4})));
+			var wlc_n = cbs.wlc && ((!_elm_lang$core$Native_Utils.eq(
+				sq_src,
+				{ctor: '_Tuple2', _0: 0, _1: 0})) && (!_elm_lang$core$Native_Utils.eq(
+				sq_src,
+				{ctor: '_Tuple2', _0: 0, _1: 4})));
+			var bsc_n = cbs.bsc && ((!_elm_lang$core$Native_Utils.eq(
+				sq_src,
+				{ctor: '_Tuple2', _0: 7, _1: 7})) && (!_elm_lang$core$Native_Utils.eq(
+				sq_src,
+				{ctor: '_Tuple2', _0: 7, _1: 4})));
+			var blc_n = cbs.blc && ((!_elm_lang$core$Native_Utils.eq(
+				sq_src,
+				{ctor: '_Tuple2', _0: 7, _1: 0})) && (!_elm_lang$core$Native_Utils.eq(
+				sq_src,
+				{ctor: '_Tuple2', _0: 7, _1: 4})));
+			var check = A2(
+				_user$project$Game$kingInCheck,
+				castle_b,
+				_user$project$PColor$otherColor(p));
+			var srm = (_elm_lang$core$Native_Utils.eq(pc, _user$project$Piece$P) && _elm_lang$core$Native_Utils.eq(
+				_elm_lang$core$Basics$abs(r_dest - r_src),
+				2)) ? _elm_lang$core$Maybe$Just(c_src) : _elm_lang$core$Maybe$Nothing;
+			var kposs_new = _elm_lang$core$Native_Utils.eq(pc, _user$project$Piece$K) ? (_elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? _elm_lang$core$Native_Utils.update(
+				kposs,
+				{w: sq_dest}) : _elm_lang$core$Native_Utils.update(
+				kposs,
+				{b: sq_dest})) : kposs;
+			return {
+				ctor: '_Tuple6',
+				_0: castle_b,
+				_1: {wsc: wsc_n, wlc: wlc_n, bsc: bsc_n, blc: blc_n},
+				_2: captured,
+				_3: kposs_new,
+				_4: srm,
+				_5: {ctor: '_Tuple6', _0: p, _1: pc, _2: sq_src, _3: sq_dest, _4: captured, _5: check}
+			};
+		}
+	});
+var _user$project$Game$rookDirs = {
+	ctor: '::',
+	_0: _user$project$Game$N,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Game$S,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Game$E,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Game$W,
+				_1: {ctor: '[]'}
+			}
+		}
+	}
+};
+var _user$project$Game$queenDirs = {
+	ctor: '::',
+	_0: _user$project$Game$N,
+	_1: {
+		ctor: '::',
+		_0: _user$project$Game$S,
+		_1: {
+			ctor: '::',
+			_0: _user$project$Game$E,
+			_1: {
+				ctor: '::',
+				_0: _user$project$Game$W,
+				_1: {
+					ctor: '::',
+					_0: _user$project$Game$NE,
+					_1: {
+						ctor: '::',
+						_0: _user$project$Game$NW,
+						_1: {
+							ctor: '::',
+							_0: _user$project$Game$SE,
+							_1: {
+								ctor: '::',
+								_0: _user$project$Game$SW,
+								_1: {ctor: '[]'}
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+};
+var _user$project$Game$pieceMovesWithoutLegality = F6(
+	function (b, cbs, p, s, pc, mi) {
+		var sc = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? cbs.wsc : cbs.bsc;
+		var lc = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? cbs.wlc : cbs.blc;
+		var _p49 = pc;
+		switch (_p49.ctor) {
+			case 'K':
+				return A5(_user$project$Game$kingMovesWithCastle, b, p, s, sc, lc);
+			case 'Q':
+				return A4(_user$project$Game$pieceDirMoves, b, p, s, _user$project$Game$queenDirs);
+			case 'R':
+				return A4(_user$project$Game$pieceDirMoves, b, p, s, _user$project$Game$rookDirs);
+			case 'B':
+				return A4(_user$project$Game$pieceDirMoves, b, p, s, _user$project$Game$bishopDirs);
+			case 'Kn':
+				return A3(_user$project$Game$knightMoves, b, p, s);
+			default:
+				return A4(_user$project$Game$pawnMoves, b, p, s, mi);
+		}
+	});
+var _user$project$Game$pieceMoves = F7(
+	function (b, cbs, p, s, pc, mi, kposs) {
+		var sc = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? cbs.wsc : cbs.bsc;
+		var lc = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? cbs.wlc : cbs.blc;
+		var poss_mvs = A6(_user$project$Game$pieceMovesWithoutLegality, b, cbs, p, s, pc, mi);
+		var test_mv = function (sq) {
+			var _p50 = A5(_user$project$Game$makeMoveSimple, b, cbs, s, sq, kposs);
+			var new_b = _p50._0;
+			var new_kposs = _p50._1;
+			var k_sq = _elm_lang$core$Native_Utils.eq(p, _user$project$PColor$White) ? new_kposs.w : new_kposs.b;
+			return !A3(_user$project$Game$sqInAttackEfficient, new_b, p, k_sq);
+		};
+		return A2(_elm_lang$core$List$filter, test_mv, poss_mvs);
+	});
+var _user$project$Game$sqMoves = F5(
+	function (b, cbs, s, mi, kposs) {
+		var _p51 = A2(_chendrix$elm_matrix$Matrix$get, s, b);
+		if ((_p51.ctor === 'Just') && (_p51._0.ctor === 'NotEmpty')) {
+			return A7(_user$project$Game$pieceMoves, b, cbs, _p51._0._0, s, _p51._0._1, mi, kposs);
+		} else {
+			return {ctor: '[]'};
+		}
+	});
+var _user$project$Game$validSquares = F5(
+	function (b, cbs, p, mi, kposs) {
+		var locs = _chendrix$elm_matrix$Matrix$flatten(
+			A2(
+				_chendrix$elm_matrix$Matrix$mapWithLocation,
+				F2(
+					function (loc, a) {
+						return loc;
+					}),
+				b));
+		var tmpSqMvs = F2(
+			function (sq, acc) {
+				var _p52 = A2(_chendrix$elm_matrix$Matrix$get, sq, b);
+				if ((_p52.ctor === 'Just') && (_p52._0.ctor === 'NotEmpty')) {
+					var new_mvs = _elm_lang$core$Native_Utils.eq(p, _p52._0._0) ? A5(_user$project$Game$sqMoves, b, cbs, sq, mi, kposs) : {ctor: '[]'};
+					return A2(_elm_lang$core$Basics_ops['++'], new_mvs, acc);
+				} else {
+					return acc;
+				}
+			});
+		return A3(
+			_elm_lang$core$List$foldr,
+			tmpSqMvs,
+			{ctor: '[]'},
+			locs);
+	});
+var _user$project$Game$validMoves = F5(
+	function (b, cbs, p, mi, kposs) {
+		var locs = _chendrix$elm_matrix$Matrix$flatten(
+			A2(
+				_chendrix$elm_matrix$Matrix$mapWithLocation,
+				F2(
+					function (loc, a) {
+						return loc;
+					}),
+				b));
+		var tmpSqMvs = F2(
+			function (sq, acc) {
+				var _p53 = A2(_chendrix$elm_matrix$Matrix$get, sq, b);
+				if ((_p53.ctor === 'Just') && (_p53._0.ctor === 'NotEmpty')) {
+					var new_mvs = _elm_lang$core$Native_Utils.eq(p, _p53._0._0) ? A2(
+						_elm_lang$core$List$map,
+						function (s) {
+							return {ctor: '_Tuple2', _0: sq, _1: s};
+						},
+						A5(_user$project$Game$sqMoves, b, cbs, sq, mi, kposs)) : {ctor: '[]'};
+					return A2(_elm_lang$core$Basics_ops['++'], new_mvs, acc);
+				} else {
+					return acc;
+				}
+			});
+		return A3(
+			_elm_lang$core$List$foldr,
+			tmpSqMvs,
+			{ctor: '[]'},
+			locs);
+	});
+var _user$project$Game$sqMovesWithoutLegality = F4(
+	function (b, cbs, s, mi) {
+		var _p54 = A2(_chendrix$elm_matrix$Matrix$get, s, b);
+		if ((_p54.ctor === 'Just') && (_p54._0.ctor === 'NotEmpty')) {
+			return A6(_user$project$Game$pieceMovesWithoutLegality, b, cbs, _p54._0._0, s, _p54._0._1, mi);
+		} else {
+			return {ctor: '[]'};
+		}
+	});
+var _user$project$Game$validSquaresWithoutLegality = F4(
+	function (b, cbs, p, mi) {
+		var locs = _chendrix$elm_matrix$Matrix$flatten(
+			A2(
+				_chendrix$elm_matrix$Matrix$mapWithLocation,
+				F2(
+					function (loc, a) {
+						return loc;
+					}),
+				b));
+		var tmpSqMvs = F2(
+			function (sq, acc) {
+				var _p55 = A2(_chendrix$elm_matrix$Matrix$get, sq, b);
+				if ((_p55.ctor === 'Just') && (_p55._0.ctor === 'NotEmpty')) {
+					var new_mvs = _elm_lang$core$Native_Utils.eq(p, _p55._0._0) ? A4(_user$project$Game$sqMovesWithoutLegality, b, cbs, sq, mi) : {ctor: '[]'};
+					return A2(_elm_lang$core$Basics_ops['++'], new_mvs, acc);
+				} else {
+					return acc;
+				}
+			});
+		return A3(
+			_elm_lang$core$List$foldr,
+			tmpSqMvs,
+			{ctor: '[]'},
+			locs);
+	});
+var _user$project$Game$pieceAttacks = F4(
+	function (b, p, s, pc) {
+		var _p56 = pc;
+		switch (_p56.ctor) {
+			case 'K':
+				return A3(_user$project$Game$kingMoves, b, p, s);
+			case 'Q':
+				return A4(_user$project$Game$pieceDirMoves, b, p, s, _user$project$Game$queenDirs);
+			case 'R':
+				return A4(_user$project$Game$pieceDirMoves, b, p, s, _user$project$Game$rookDirs);
+			case 'B':
+				return A4(_user$project$Game$pieceDirMoves, b, p, s, _user$project$Game$bishopDirs);
+			case 'Kn':
+				return A3(_user$project$Game$knightMoves, b, p, s);
+			default:
+				return A3(_user$project$Game$pawnAttacks, b, p, s);
+		}
+	});
+var _user$project$Game$inAttack = F4(
+	function (b, spc, p, s) {
+		var _p57 = A2(_chendrix$elm_matrix$Matrix$get, spc, b);
+		if ((_p57.ctor === 'Just') && (_p57._0.ctor === 'NotEmpty')) {
+			var _p58 = _p57._0._0;
+			return _elm_lang$core$Native_Utils.eq(_p58, p) ? false : A2(
+				_elm_lang$core$List$member,
+				s,
+				A4(_user$project$Game$pieceAttacks, b, _p58, spc, _p57._0._1));
+		} else {
+			return false;
+		}
+	});
+var _user$project$Game$sqInAttackTimes = F3(
+	function (b, p, k_sq) {
+		var locs = _chendrix$elm_matrix$Matrix$flatten(
+			A2(
+				_chendrix$elm_matrix$Matrix$mapWithLocation,
+				F2(
+					function (loc, a) {
+						return loc;
+					}),
+				b));
+		return A3(
+			_elm_lang$core$List$foldr,
+			F2(
+				function (sq, acc) {
+					return acc + (A4(_user$project$Game$inAttack, b, sq, p, k_sq) ? 1 : 0);
+				}),
+			0,
+			locs);
+	});
